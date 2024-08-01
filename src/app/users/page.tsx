@@ -5,9 +5,9 @@ export default function Dashboard() {
 
     return (
       <>
-        <h1>Dashboard</h1>
+        <h1>Users List</h1>
         <UserList/>
-        <Link href="/">Return Home</Link>
+        <Link href="/">Back</Link>
       </>
     )
   }

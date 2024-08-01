@@ -16,6 +16,7 @@ module.exports = {
     //   ]
     // },
     env: {
+        // for development, please create .env file under the root and add MONGODB_URI=CONNECTION_STRING
         MONGODB_URI: process.env.MONGODB_URI,
     }
   }
