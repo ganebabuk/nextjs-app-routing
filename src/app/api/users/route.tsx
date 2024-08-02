@@ -1,22 +1,6 @@
 import connectToDatabase from '../../../lib/mongoose';
-import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
-const userProfileSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true, index: true },
-  first_name: { type: String, required: true },
-  last_name: { type: String, required: true },
-  age: { type: Number, required: true },
-  gender: {type: String, required: true},
-  marks: [
-    {
-      english: { type: Number, required: true },
-      maths: { type: Number, required: true }
-    }
-  ],
-  date_created: { type: Date, required: true},
-});
-
-const Users = mongoose.models.Users || mongoose.model('Users', userProfileSchema);
+import Users from '../../models/users';
 
 export async function GET() {
   await connectToDatabase();
