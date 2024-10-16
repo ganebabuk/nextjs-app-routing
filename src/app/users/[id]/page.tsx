@@ -1,5 +1,6 @@
 import { headers } from 'next/headers';
 import Link from 'next/link';
+import type { Metadata, ResolvingMetadata } from 'next';
 interface User {
     email: string;
     first_name: string;
@@ -18,7 +19,40 @@ interface PageProps {
         id: string;
     };
 }
-  
+
+// static meta data
+// export const metadata: Metadata = {
+//   title: 'User details',
+//   description: 'User details',
+// }
+
+type Props = {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+ 
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const headersList = headers();
+    const protocol = headersList.get('x-forwarded-proto') || 'http';
+    const host = headersList.get('host');
+    const baseUrl = `${protocol}://${host}`;
+
+    const response = await fetch(`${baseUrl}/api/users/${params?.id}`, { cache: 'no-store' });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+    }
+
+    const data: User = await response.json();
+    return {
+      title: `User details of ${data?.first_name?.toLowerCase()} ${data?.last_name?.toLowerCase()}`,
+      description:  `User details of ${data?.first_name?.toLowerCase()} ${data?.last_name?.toLowerCase()}`,
+    }
+}
+
 async function fetchUserData(id: string): Promise<User> {
     const headersList = headers();
     const protocol = headersList.get('x-forwarded-proto') || 'http';
