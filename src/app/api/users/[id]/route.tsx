@@ -2,10 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectToDatabase from '../../../../lib/mongoose';
 import mongoose from 'mongoose';
 import Users from '@/app/models/users';
+import { headers } from 'next/headers';
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   await connectToDatabase();
-
+  console.log('request.headers:::', request.headers.get('host'));
+  const headersList = headers()
+  const host = headersList.get('host');
+  console.log('host:::', host);
   const { id } = params;
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
