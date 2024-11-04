@@ -1,6 +1,7 @@
 import { headers } from 'next/headers';
 import Link from 'next/link';
 import type { Metadata, ResolvingMetadata } from 'next';
+import Image from 'next/image';
 interface User {
     email: string;
     first_name: string;
@@ -70,6 +71,13 @@ async function fetchUserData(id: string): Promise<User> {
     return (
       <div>
         <h1>User Details with server side rendering without React component</h1>
+        <Image
+          placeholder="blur"
+          blurDataURL="data:image/svg+xml;base64,..." // Placeholder data
+          src="https://nextjs-app-routing.vercel.app/images/pic.png"
+          sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          alt="Responsive Image"
+        />
         <p><strong>Email:</strong> {user.email}</p>
         <p><strong>First Name:</strong> {user.first_name}</p>
         <p><strong>Last Name:</strong> {user.last_name}</p>
