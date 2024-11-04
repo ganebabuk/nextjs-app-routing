@@ -42,5 +42,14 @@ module.exports = {
     },
     experimental: {
         turbo: true,
-    }
+    },
+    images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'https://nextjs-app-routing.vercel.app',
+            pathname: '/images/**',
+          },
+        ],
+    },
   }
