@@ -20,11 +20,6 @@ interface PageProps {
     };
 }
 
-// static meta data
-// export const metadata: Metadata = {
-//   title: 'User details',
-//   description: 'User details',
-// }
 
 type Props = {
   params: { id: string }

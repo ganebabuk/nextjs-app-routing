@@ -39,5 +39,8 @@ module.exports = {
           responseLimit: '8mb',
         //   responseLimit: false,
         }
+    },
+    experimental: {
+        turbo: true,
     }
   }
