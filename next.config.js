@@ -47,7 +47,7 @@ module.exports = {
         remotePatterns: [
           {
             protocol: 'https',
-            hostname: 'https://nextjs-app-routing.vercel.app',
+            hostname: 'nextjs-app-routing.vercel.app',
             pathname: '/images/**',
           },
         ],
