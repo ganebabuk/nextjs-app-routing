@@ -27,44 +27,41 @@ type Props = {
   searchParams: { [key: string]: string | string[] | undefined }
 }
  
-export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+// generateMetadata only handles metadata
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const headersList = headers();
-    const protocol = headersList.get('x-forwarded-proto') || 'http';
-    const host = headersList.get('host');
-    const baseUrl = `${protocol}://${host}`;
+  const protocol = headersList.get('x-forwarded-proto') || 'http';
+  const host = headersList.get('host');
+  const baseUrl = `${protocol}://${host}`;
 
-    const response = await fetch(`${baseUrl}/api/users/${params?.id}`, { cache: 'no-store' });
+  const response = await fetch(`${baseUrl}/api/users/${params?.id}`, { cache: 'no-store' });
+  if (!response.ok) {
+    throw new Error('Failed to fetch user data');
+  }
 
-    if (!response.ok) {
-        throw new Error('Failed to fetch user data');
-    }
+  const data: User = await response.json();
 
-    const data: User = await response.json();
-    return {
-      title: `User details of ${data?.first_name?.toLowerCase()} ${data?.last_name?.toLowerCase()}`,
-      description:  `User details of ${data?.first_name?.toLowerCase()} ${data?.last_name?.toLowerCase()}`,
-    }
+  return {
+    title: `User details of ${data.first_name.toLowerCase()} ${data.last_name.toLowerCase()}`,
+    description: `User details of ${data.first_name.toLowerCase()} ${data.last_name.toLowerCase()}`,
+  };
 }
 
+// fetchUserData function to retrieve user data
 async function fetchUserData(id: string): Promise<User> {
-    const headersList = headers();
-    const protocol = headersList.get('x-forwarded-proto') || 'http';
-    const host = headersList.get('host');
-    const baseUrl = `${protocol}://${host}`;
+  const headersList = headers();
+  const protocol = headersList.get('x-forwarded-proto') || 'http';
+  const host = headersList.get('host');
+  const baseUrl = `${protocol}://${host}`;
 
-    const response = await fetch(`${baseUrl}/api/users/${id}`, { cache: 'no-store' });
+  const response = await fetch(`${baseUrl}/api/users/${id}`, { cache: 'no-store' });
+  if (!response.ok) {
+    throw new Error('Failed to fetch user data');
+  }
 
-    if (!response.ok) {
-        throw new Error('Failed to fetch user data');
-    }
-
-    const data: User = await response.json();
-    return data;
+  return response.json();
 }
-  
+
   export default async function Page({ params }: PageProps) {
     const user = await fetchUserData(params.id);
   
